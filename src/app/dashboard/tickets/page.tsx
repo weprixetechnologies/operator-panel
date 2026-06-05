@@ -4,10 +4,11 @@ import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { 
-    Search, Filter, Plus, ChevronLeft, ChevronRight, Eye, 
+    Upload, Search, Filter, Plus, ChevronLeft, ChevronRight, Eye, 
     MoreVertical, UserPlus, XCircle, Key, CheckCircle2, ShieldAlert 
 } from 'lucide-react';
 import api from '@/utils/axiosInstance';
+import BulkImportModal from '@/components/tickets/BulkImportModal';
 import { AuthUser } from '@/utils/auth';
 
 const STATUS_COLORS: Record<string, string> = {
@@ -38,6 +39,7 @@ function TicketsPageContent() {
     
     const [tickets, setTickets] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [showBulkModal, setShowBulkModal] = useState(false);
     const [total, setTotal] = useState(0);
     const [page, setPage] = useState(1);
     const [filters, setFilters] = useState({
@@ -101,13 +103,22 @@ function TicketsPageContent() {
                     <p className="text-slate-500 mt-1">Manage and track service requests</p>
                 </div>
                 {user?.role !== 'ENGINEER' && (
-                    <Link 
-                        href="/dashboard/tickets/create"
-                        className="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-sm shadow-emerald-600/20"
-                    >
-                        <Plus className="w-5 h-5" />
-                        Create Ticket
-                    </Link>
+                    <div className="flex items-center gap-3">
+                        <button 
+                            onClick={() => setShowBulkModal(true)}
+                            className="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-xl transition-colors"
+                        >
+                            <Upload className="w-5 h-5" />
+                            Bulk Import
+                        </button>
+                        <Link 
+                            href="/dashboard/tickets/create"
+                            className="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-sm shadow-emerald-600/20"
+                        >
+                            <Plus className="w-5 h-5" />
+                            Create Ticket
+                        </Link>
+                    </div>
                 )}
             </div>
 
@@ -261,6 +272,11 @@ function TicketsPageContent() {
                     </div>
                 )}
             </div>
+            <BulkImportModal 
+                isOpen={showBulkModal} 
+                onClose={() => setShowBulkModal(false)} 
+                onSuccess={() => { setShowBulkModal(false); fetchTickets(); }} 
+            />
         </div>
     );
 }
