@@ -114,7 +114,7 @@ export default function LoginPage() {
         <div className="my-auto max-w-md w-full mx-auto">
 
           <div className="mb-8 text-center">
-            <h1 className="text-4xl font-semibold tracking-tight text-zinc-900 mb-2">Welcome Back</h1>
+            <h1 className="text-4xl font-semibold tracking-tight text-zinc-900 mb-2">Welcome Back <span className="text-emerald-600">Operator</span></h1>
             <p className="text-zinc-500 text-sm">Please sign in to your account to continue</p>
           </div>
 
