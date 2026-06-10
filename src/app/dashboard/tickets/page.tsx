@@ -3,15 +3,15 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { 
-    Upload, Search, Filter, Plus, ChevronLeft, ChevronRight, Eye, 
-    MoreVertical, UserPlus, XCircle, Key, CheckCircle2, ShieldAlert 
+import {
+    Upload, Search, Filter, Plus, ChevronLeft, ChevronRight, Eye,
+    MoreVertical, UserPlus, XCircle, Key, CheckCircle2, ShieldAlert
 } from 'lucide-react';
 import api from '@/utils/axiosInstance';
 import BulkImportModal from '@/components/tickets/BulkImportModal';
 import BulkAssignModal from '@/components/tickets/BulkAssignModal';
 import { AuthUser } from '@/utils/auth';
-import { AuthUser } from '@/utils/auth';
+// import { AuthUser } from '@/utils/auth';
 
 const STATUS_COLORS: Record<string, string> = {
     NEW: 'bg-blue-50 text-blue-700 border-blue-200',
@@ -38,7 +38,7 @@ function TicketsPageContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const statusParam = searchParams.get('status') || '';
-    
+
     const [tickets, setTickets] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showBulkModal, setShowBulkModal] = useState(false);
@@ -109,7 +109,7 @@ function TicketsPageContent() {
                 {user?.role !== 'ENGINEER' && (
                     <div className="flex items-center gap-3">
                         {selectedTickets.length > 0 && (
-                            <button 
+                            <button
                                 onClick={() => setShowBulkAssignModal(true)}
                                 className="inline-flex items-center gap-2 px-4 py-2.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-medium rounded-xl transition-colors"
                             >
@@ -117,14 +117,14 @@ function TicketsPageContent() {
                                 Bulk Assign ({selectedTickets.length})
                             </button>
                         )}
-                        <button 
+                        <button
                             onClick={() => setShowBulkModal(true)}
                             className="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-xl transition-colors"
                         >
                             <Upload className="w-5 h-5" />
                             Bulk Import
                         </button>
-                        <Link 
+                        <Link
                             href="/dashboard/tickets/create"
                             className="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-xl transition-colors shadow-sm shadow-emerald-600/20"
                         >
@@ -139,8 +139,8 @@ function TicketsPageContent() {
             <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 mb-6 flex flex-wrap gap-4 items-center">
                 <div className="flex-1 min-w-[200px] relative">
                     <Search className="w-5 h-5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                    <input 
-                        type="text" 
+                    <input
+                        type="text"
                         name="search"
                         placeholder="Search merchant name..."
                         value={filters.search}
@@ -148,7 +148,7 @@ function TicketsPageContent() {
                         className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all text-sm"
                     />
                 </div>
-                
+
                 <select name="status" value={filters.status} onChange={handleFilterChange} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm min-w-[140px]">
                     <option value="">All Statuses</option>
                     {Object.keys(STATUS_COLORS).map(s => (
@@ -181,8 +181,8 @@ function TicketsPageContent() {
                         <thead>
                             <tr className="bg-slate-50/50 border-b border-slate-200">
                                 <th className="px-6 py-4 w-12 text-center">
-                                    <input 
-                                        type="checkbox" 
+                                    <input
+                                        type="checkbox"
                                         className="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
                                         checked={tickets.length > 0 && selectedTickets.length === tickets.length}
                                         onChange={(e) => {
@@ -225,8 +225,8 @@ function TicketsPageContent() {
                                 tickets.map((t: any) => (
                                     <tr key={t.id} className={`hover:bg-slate-50 transition-colors ${selectedTickets.includes(t.id) ? 'bg-indigo-50/30' : ''}`}>
                                         <td className="px-6 py-4 w-12 text-center">
-                                            <input 
-                                                type="checkbox" 
+                                            <input
+                                                type="checkbox"
                                                 className="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
                                                 checked={selectedTickets.includes(t.id)}
                                                 onChange={(e) => {
@@ -267,7 +267,7 @@ function TicketsPageContent() {
                                         </td>
                                         <td className="px-6 py-4 text-right">
                                             <div className="flex items-center justify-end gap-2">
-                                                <Link 
+                                                <Link
                                                     href={`/dashboard/tickets/${t.id}`}
                                                     className="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
                                                     title="View Details"
@@ -286,7 +286,7 @@ function TicketsPageContent() {
                         </tbody>
                     </table>
                 </div>
-                
+
                 {/* Pagination */}
                 {!loading && tickets.length > 0 && (
                     <div className="px-6 py-4 border-t border-slate-200 flex items-center justify-between">
@@ -294,7 +294,7 @@ function TicketsPageContent() {
                             Showing {(page - 1) * 20 + 1} to {Math.min(page * 20, total)} of {total} tickets
                         </span>
                         <div className="flex items-center gap-2">
-                            <button 
+                            <button
                                 disabled={page === 1}
                                 onClick={() => setPage(p => p - 1)}
                                 className="p-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 disabled:opacity-50"
@@ -302,7 +302,7 @@ function TicketsPageContent() {
                                 <ChevronLeft className="w-4 h-4" />
                             </button>
                             <span className="text-sm font-medium text-slate-700 px-2">Page {page}</span>
-                            <button 
+                            <button
                                 disabled={page * 20 >= total}
                                 onClick={() => setPage(p => p + 1)}
                                 className="p-2 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 disabled:opacity-50"
@@ -313,12 +313,12 @@ function TicketsPageContent() {
                     </div>
                 )}
             </div>
-            <BulkImportModal 
-                isOpen={showBulkModal} 
-                onClose={() => setShowBulkModal(false)} 
-                onSuccess={() => { setShowBulkModal(false); fetchTickets(); }} 
+            <BulkImportModal
+                isOpen={showBulkModal}
+                onClose={() => setShowBulkModal(false)}
+                onSuccess={() => { setShowBulkModal(false); fetchTickets(); }}
             />
-            <BulkAssignModal 
+            <BulkAssignModal
                 isOpen={showBulkAssignModal}
                 onClose={() => setShowBulkAssignModal(false)}
                 selectedTickets={selectedTickets}
